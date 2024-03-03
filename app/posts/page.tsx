@@ -7,7 +7,7 @@ export default async function Page(){
     const json = await res.json()
     return (
     <section>
-        {json.map((item, index) => (
+        {json.map((item: any, index: any) => (
             <Cards key={index} title={item.title} body={item.body}></Cards>
         ))
         }
