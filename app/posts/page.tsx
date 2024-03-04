@@ -20,7 +20,7 @@ export default function Page(){
 
     const change = (event: any) => {
         
-        event.preventDefault()
+
         setVal(event.target.value)
         url2 = `https://jsonplaceholder.typicode.com/posts?userId=${val}`
         setUrl1(url2)
@@ -28,7 +28,7 @@ export default function Page(){
     if (url1.length > 0) url = url1
     else url = urlFija
     console.log(url)
-    const {data, error} = useSWR('/posts', () => fetcher(url))
+    const {data, error} = useSWR('/posts', () => fetcher(url), { refreshInterval: 10 } )
 
     if(error) return <div>Failed to load</div>
     if(!data) return (
