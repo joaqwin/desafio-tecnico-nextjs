@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from "react"
-import Cards from "../components/Cards"
-import useSWR from "swr"
+import { useEffect, useState } from "react";
+import Cards from "../components/Cards";
+import useSWR, { useSWRConfig } from "swr";
+import { useDebounce } from 'use-debounce';
 
 const fetcher = async (url: string) => {
     const res = await fetch(url)
@@ -12,23 +13,24 @@ const fetcher = async (url: string) => {
 
 
 export default function Page(){
-    let urlFija = 'https://jsonplaceholder.typicode.com/posts'
-    let url = 'https://jsonplaceholder.typicode.com/posts'
-    let url2 = ''
     const [val, setVal] = useState("")
-    const [url1, setUrl1] = useState('');
+    const [url, setUrl] = useState('https://jsonplaceholder.typicode.com/posts');
+
+    const {data, error} = useSWR('/posts', () => fetcher(url))
+    const { mutate } = useSWRConfig()
 
     const change = (event: any) => {
-        
-
         setVal(event.target.value)
-        url2 = `https://jsonplaceholder.typicode.com/posts?userId=${val}`
-        setUrl1(url2)
     }
-    if (url1.length > 0) url = url1
-    else url = urlFija
-    console.log(url)
-    const {data, error} = useSWR('/posts', () => fetcher(url), { refreshInterval: 10 } )
+
+    useEffect(() => {
+        if(val != '') setUrl(`https://jsonplaceholder.typicode.com/posts?userId=${val}`)
+        else setUrl('https://jsonplaceholder.typicode.com/posts')
+        mutate('/posts')
+        console.log(url)      
+    })
+    console.log('esta render')
+
 
     if(error) return <div>Failed to load</div>
     if(!data) return (
@@ -40,10 +42,10 @@ export default function Page(){
     return (
         <section className='flex'>
             <div>
-            {  
-                data.map((item: any, index: any) => (
-                <Cards key={index} title={item.title} body={item.body}></Cards>
-            ))}
+                {  
+                    data.map((item: any, index: any) => (
+                    <Cards key={index} title={item.title} body={item.body}></Cards>
+                ))}
             </div>
             <div>
                 <label>
