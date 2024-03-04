@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from "react"
 import Cards from "../components/Cards"
 import useSWR from "swr"
 
@@ -9,7 +10,16 @@ const fetcher = async () => {
     return data
 }
 
-export default async function Page(){
+
+export default function Page(){
+    const [val, setVal] = useState("")
+
+    const change = (event: any) => {
+        
+        event.preventDefault()
+        setVal(event.target.value)
+    }
+
     const {data, error} = useSWR('/posts', fetcher)
 
     if(error) return <div>Failed to load</div>
@@ -19,11 +29,20 @@ export default async function Page(){
         </div>
     )
     return (
-        <section>
-            {data.map((item: any, index:any) => (
-                    <Cards key={index} title={item.title} body={item.body}></Cards>
-                )
-            )}
+        <section className='flex'>
+            <div>
+                {data.map((item: any, index:any) => (
+                        <Cards key={index} title={item.title} body={item.body}></Cards>
+                    )
+                )}
+            </div>
+            <div>
+                <label>
+                    Filtra por userID
+                    <input name='Filtro' value={val} onChange={change} placeholder="type here your filter"/>
+                </label>
+                <p>Hola, {val}</p>
+            </div>
         </section>
     )
 }
@@ -34,6 +53,7 @@ export default async function Page(){
             <Cards key={index} title={item.title} body={item.body}></Cards>
         ))
         }
-    </section>    
+    </section>
         
     );*/
+
