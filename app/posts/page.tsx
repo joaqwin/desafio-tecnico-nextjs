@@ -1,11 +1,9 @@
 'use client'
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Cards from "../components/Cards";
 import useSWR, { useSWRConfig } from "swr";
 import { useDebounce } from 'use-debounce';
-import { time } from "console";
-import { TIMEOUT } from "dns";
 
 const fetcher = async (url: string) => {
     const res = await fetch(url)
@@ -29,12 +27,9 @@ export default function Page(){
     }
     
     useEffect(() => {
-        console.log('HOLAAA')
         mutate('/posts')
         console.log(url)    
     }, [debounced])
-    console.log('esta render')
-
 
     if(error) return <div>Failed to load</div>
     if(!data) return (
