@@ -15,22 +15,21 @@ const fetcher = async (url: string) => {
 export default function Page(){
     const [val, setVal] = useState("")
     const [url, setUrl] = useState('https://jsonplaceholder.typicode.com/posts');
+    const [debounced] = useDebounce(val, 1000)
 
     const {data, error} = useSWR('/posts', () => fetcher(url))
     const { mutate } = useSWRConfig()
-
+    
     const change = (event: any) => {
         setVal(event.target.value)
-    }
-
-    useEffect(() => {
-        if(val != '') setUrl(`https://jsonplaceholder.typicode.com/posts?userId=${val}`)
+        if(val != '') setUrl(`https://jsonplaceholder.typicode.com/posts?userId=${Number(val)}`)
         else setUrl('https://jsonplaceholder.typicode.com/posts')
+    }
+    
+    useEffect(() => {
         mutate('/posts')
-        console.log(url)      
-    })
-    console.log('esta render')
-
+        console.log(url)    
+    }, [debounced])
 
     if(error) return <div>Failed to load</div>
     if(!data) return (
@@ -52,7 +51,7 @@ export default function Page(){
                     Filtra por userID
                     <input name='Filtro' value={val} onChange={change} type='number' placeholder="type here your filter"/>
                 </label>
-                <p>Hola, {val}</p>
+                <p>Hola, {debounced}</p>
             </div>
         </section>
     )
