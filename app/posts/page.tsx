@@ -22,10 +22,13 @@ export default function Page(){
     
     const change = (event: any) => {
         setVal(event.target.value)
+        
+    }
+    const handleKeyUp = (event: any) => {
         if(val != '') setUrl(`https://jsonplaceholder.typicode.com/posts?userId=${Number(val)}`)
         else setUrl('https://jsonplaceholder.typicode.com/posts')
     }
-    
+
     useEffect(() => {
         mutate('/posts')
         console.log(url)    
@@ -49,7 +52,7 @@ export default function Page(){
             <div>
                 <label>
                     Filtra por userID
-                    <input name='Filtro' value={val} onChange={change} type='number' placeholder="type here your filter"/>
+                    <input name='Filtro' value={val} onChange={change} onKeyUp={handleKeyUp} type='number' placeholder="type here your filter"/>
                 </label>
                 <p>Hola, {debounced}</p>
             </div>
