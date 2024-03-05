@@ -1,9 +1,11 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Cards from "../components/Cards";
 import useSWR, { useSWRConfig } from "swr";
 import { useDebounce } from 'use-debounce';
+import { time } from "console";
+import { TIMEOUT } from "dns";
 
 const fetcher = async (url: string) => {
     const res = await fetch(url)
@@ -15,20 +17,22 @@ const fetcher = async (url: string) => {
 export default function Page(){
     const [val, setVal] = useState("")
     const [url, setUrl] = useState('https://jsonplaceholder.typicode.com/posts');
+    const [debounced] = useDebounce(val, 1000)
 
     const {data, error} = useSWR('/posts', () => fetcher(url))
     const { mutate } = useSWRConfig()
-
+    
     const change = (event: any) => {
         setVal(event.target.value)
-    }
-
-    useEffect(() => {
-        if(val != '') setUrl(`https://jsonplaceholder.typicode.com/posts?userId=${val}`)
+        if(val != '') setUrl(`https://jsonplaceholder.typicode.com/posts?userId=${Number(val)}`)
         else setUrl('https://jsonplaceholder.typicode.com/posts')
+    }
+    
+    useEffect(() => {
+        console.log('HOLAAA')
         mutate('/posts')
-        console.log(url)      
-    })
+        console.log(url)    
+    }, [debounced])
     console.log('esta render')
 
 
@@ -52,7 +56,7 @@ export default function Page(){
                     Filtra por userID
                     <input name='Filtro' value={val} onChange={change} type='number' placeholder="type here your filter"/>
                 </label>
-                <p>Hola, {val}</p>
+                <p>Hola, {debounced}</p>
             </div>
         </section>
     )
