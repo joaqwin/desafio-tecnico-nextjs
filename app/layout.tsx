@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html class="h-full" lang="en">
+    <html lang="en">
       <body className={inter.className}>{children}
         <h1>HOLA</h1>
       </body>
