@@ -15,9 +15,24 @@ const fetcher = async (url: string) => {
 export default function Page(){
     const [val, setVal] = useState("")
     const [url, setUrl] = useState('https://jsonplaceholder.typicode.com/posts');
-    const [debounced] = useDebounce(val, 1000)
+    const [debounced] = useDebounce(val, 500)
 
-    const {data, error} = useSWR('/posts', () => fetcher(url))
+    const { data, error, isValidating} = useSWR('/posts', () => fetcher(url), {
+        onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+            // Never retry on 404.
+            if (error.status === 404) return <div>Failed to load</div>
+         
+            // Never retry for a specific key.
+            if (key === '/api/user') return
+         
+            // Only retry up to 10 times.
+            if (retryCount >= 2) return  alert('We are having some problems... Please refresh')
+         
+            // Retry after 5 seconds.
+            setTimeout(() => revalidate({ retryCount }), 5000)
+          }
+        })
+
     const { mutate } = useSWRConfig()
     
     const change = (event: any) => {
@@ -35,26 +50,31 @@ export default function Page(){
     }, [debounced])
 
     if(error) return <div>Failed to load</div>
-    if(!data) return (
+    if(isValidating) return (
         <div className="flex justify-center items-center h-screen">
+            <h1>Loading..........</h1>
             <div className="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
         </div>
     )
 
     return (
         <section className='flex'>
-            <div>
+            <div className="flex justify-center pt-3 md:p-6 lg:mb-0 lg:min-h-0 lg:min-w-0 max-h-screen max-w-screen-md">
+                <div className="border h-full w-full lg:flex-1 px-3 min-h-0 min-w-0">
+
+                    <div className="w-full h-full min-h-0 min-w-0 overflow-auto">
                 {  
                     data.map((item: any, index: any) => (
                     <Cards key={index} title={item.title} body={item.body}></Cards>
-                ))}
+                 ))}
+                    </div>
+                </div>
             </div>
-            <div>
-                <label>
+            <div className="mx-auto max-w-sm">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray">
                     Filtra por userID
-                    <input name='Filtro' value={val} onChange={change} onKeyUp={handleKeyUp} type='number' placeholder="type here your filter"/>
+                    <input name='Filtro' value={val} onChange={change} onKeyUp={handleKeyUp} type='number' placeholder="type here your filter" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"/>
                 </label>
-                <p>Hola, {debounced}</p>
             </div>
         </section>
     )
