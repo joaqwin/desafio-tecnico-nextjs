@@ -59,10 +59,10 @@ export default function Page(){
 
     return (
         <section className='flex'>
-            <div class="flex justify-center pt-3 md:p-6 lg:mb-0 lg:min-h-0 lg:min-w-0 max-h-screen max-w-screen-md">
-                <div class="border h-full w-full lg:flex-1 px-3 min-h-0 min-w-0">
+            <div className="flex justify-center pt-3 md:p-6 lg:mb-0 lg:min-h-0 lg:min-w-0 max-h-screen max-w-screen-md">
+                <div className="border h-full w-full lg:flex-1 px-3 min-h-0 min-w-0">
 
-                    <div class="w-full h-full min-h-0 min-w-0 overflow-auto">
+                    <div className="w-full h-full min-h-0 min-w-0 overflow-auto">
                 {  
                     data.map((item: any, index: any) => (
                     <Cards key={index} title={item.title} body={item.body}></Cards>
@@ -71,9 +71,9 @@ export default function Page(){
                 </div>
             </div>
             <div className="mx-auto max-w-sm">
-                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-gray">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray">
                     Filtra por userID
-                    <input name='Filtro' value={val} onChange={change} onKeyUp={handleKeyUp} type='number' placeholder="type here your filter" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"/>
+                    <input name='Filtro' value={val} onChange={change} onKeyUp={handleKeyUp} type='number' placeholder="type here your filter" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"/>
                 </label>
             </div>
         </section>
