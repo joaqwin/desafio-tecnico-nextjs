@@ -50,17 +50,22 @@ export default function Page(){
     }, [debounced])
 
     if(error) return <div>Failed to load</div>
-    if(isValidating) return (
+    if(!data) return (
         <div className="flex justify-center items-center h-screen">
-            <h1>Loading..........</h1>
             <div className="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
         </div>
     )
 
     return (
-        <section className='flex'>
-            <div className="flex justify-center pt-3 md:p-6 lg:mb-0 lg:min-h-0 lg:min-w-0 max-h-screen max-w-screen-md">
-                <div className="border h-full w-full lg:flex-1 px-3 min-h-0 min-w-0">
+        <section className='grid place-content-center'>
+            <div className="object-left flex justify-center mx-auto max-w-sm">
+                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray">
+                    Filtra por userID
+                    <input name='Filtro' value={val} onChange={change} onKeyUp={handleKeyUp} type='number' placeholder="Escribe aquí la ID que deseas buscar" className="w-full sw-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"/>
+                </label>
+            </div>
+            <div className="flex pt-3 md:p-6 lg:mb-0 lg:min-h-0 lg:min-w-0 max-h-screen max-w-screen-md">
+                <div className="h-full w-full lg:flex-1 px-3 min-h-0 min-w-0">
 
                     <div className="w-full h-full min-h-0 min-w-0 overflow-auto">
                 {  
@@ -69,12 +74,6 @@ export default function Page(){
                  ))}
                     </div>
                 </div>
-            </div>
-            <div className="mx-auto max-w-sm">
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray">
-                    Filtra por userID
-                    <input name='Filtro' value={val} onChange={change} onKeyUp={handleKeyUp} type='number' placeholder="type here your filter" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"/>
-                </label>
             </div>
         </section>
     )
