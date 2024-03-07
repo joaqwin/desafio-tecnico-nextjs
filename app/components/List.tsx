@@ -9,7 +9,7 @@ import Cards from "./Cards"
 <div class="mx-auto flex size-full max-w-[50rem] flex-col">
           <header class="z-50 mb-auto flex w-full flex-wrap py-4 text-sm sm:flex-nowrap sm:justify-start">
             <nav class="w-full px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8" aria-label="Global">
-              <div class="flex items-center justify-between">
+              <diAAAAv class="flex items-center justify-between">
                 <a class="flex-none text-xl font-semibold text-white focus:outline-none focus:ring-1 focus:ring-gray-600" href="#" aria-label="Brand">Brand</a>
                 <div class="sm:hidden">
                   <button type="button" class="hs-collapse-toggle inline-flex items-center justify-center gap-2 rounded-lg border border-gray-700 p-2 align-middle text-sm font-medium text-gray-300 shadow-sm transition-all hover:border-gray-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-slate-900" data-hs-collapse="#navbar-collapse-with-animation" aria-controls="navbar-collapse-with-animation" aria-label="Toggle navigation">
