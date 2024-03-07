@@ -16,7 +16,7 @@
         NEXTJS_DIST: out
         AWS_REGION: us-east-1
         S3_BUCKET: nextjs-deploy-desafio
-        CLOUDFRONT_DISTRIBUTION_ID: E19M07TM9MI9FH
+        CLOUDFRONT_DISTRIBUTION_ID: 
   
       steps:
         - name: Checkout

@@ -16,13 +16,11 @@ export default function Page(){
     const [url, setUrl] = useState('https://jsonplaceholder.typicode.com/posts');
     const [debounced] = useDebounce(val, 500)
 
-    const { data, error, isValidating} = useSWR('/posts', () => fetcher(url), {
+    const { data, error } = useSWR('/posts', () => fetcher(url), {
         onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-            if (error.status === 404) return <div>Failed to load</div>
-         
-            if (key === '/api/user') return
-         
-            if (retryCount >= 2) return  alert('We are having some problems... Please refresh')
+            if (error.status === 404) return <div>Not found...</div>
+            
+            if (retryCount >= 5) return  alert('We are having some problems... Please refresh')
          
             setTimeout(() => revalidate({ retryCount }), 5000)
           }
@@ -30,21 +28,26 @@ export default function Page(){
 
     const { mutate } = useSWRConfig()
     
+    //Updates the value of val, when the user inputs and ID.
     const handleChange = (event: any) => {
-        setVal(event.target.value)
-        
+        setVal(event.target.value)    
     }
+
+    //After the user releases a key, url gets updated.
     const handleKeyUp = (event: any) => {
         if(val != '') setUrl(`https://jsonplaceholder.typicode.com/posts?userId=${Number(val)}`)
         else setUrl('https://jsonplaceholder.typicode.com/posts')
     }
 
+    //When the user finishes typing, the data is fetched.
     useEffect(() => {
         mutate('/posts')
         console.log(url)    
     }, [debounced])
 
     if(error) return <div>Failed to load</div>
+
+    //If data is not available yet, it appears a loading page.
     if(!data) return (
         <div className="flex justify-center items-center h-screen">
             <div className="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
