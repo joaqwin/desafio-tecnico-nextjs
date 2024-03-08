@@ -7,7 +7,7 @@ export default function Home() {
       
       <div className="my-32">
         <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-8xl"><span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Desafío</span> Técnico</h1>
-        <p className="text-lg font-normal text-gray-500 lg:text-2xl dark:text-gray-400">Para ir al proyecto de github has click <a className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400" href='https://github.com/joaqwin/desafio-tecnico-nextjs'>aquí</a></p>
+        <p className="text-lg font-normal text-gray-500 lg:text-2xl dark:text-gray-400">Para ir al repositorio de github has click <a className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400" href='https://github.com/joaqwin/desafio-tecnico-nextjs'>aquí</a></p>
       </div>
       <div className="flex justify-center">
         <Link href="/posts">
