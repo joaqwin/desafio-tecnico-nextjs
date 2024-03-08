@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Desafío Técnico.
 
-## Getting Started
+## Step 1
 
-First, run the development server:
+Para crear la aplicación usando NextJS ejecuté el siguiente comando: 
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx create-next-app@latest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Para que la creación sea exitosa es necesario tener una versión de Node ≥ 18.7.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Luego de unas preguntas de configuración la aplicación de NextJS fue creada.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Cree un repositorio público de GitHub para poder inicializar el proyecto. Hice el primer commit y primer push y finalicé el primer paso.
 
-## Learn More
+## Step 2
 
-To learn more about Next.js, take a look at the following resources:
+Creé mi cuenta de Vercel, lo instalé en mi GitHub e importé el proyecto que había creado. Luego de importarlo, fue sencillo deployearlo.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![Untitled](img-readme/Untitled.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+En este paso se requería que se hicieran deploys automáticos cuando se realizaba un push a la main branch y cada vez que se hacía un pull request. Por suerte, esta configuración venía por default y solo tuve que comprobar que se hiciera correctamente en cada caso.
 
-## Deploy on Vercel
+## Step 3
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Para crear la página /posts creé una carpeta con el mismo nombre en /app y dentro creé un archivo page.tsx.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+![Untitled](img-readme/Untitled%201.png)
+
+Para la obtención de los datos de la API utilicé la libreria SWR. Esta cuenta con una opción de auto revalidación de los datos llamada revalidateOnReconnect, que me sirvió para poder cumplir con lo que pedía este paso. Cabe destacar que esta opción viene activada por default. También cuenta con la opción de que si hay un error, se vuelva a reintentar automaticamente la petición cuantas veces quieras.
+
+Para el diseño de las cartas utilicé TailwindCSS. Creé el siguiente componente con el diseño y la información que iban a tener estas cartas.
+
+![Untitled](img-readme/Untitled%202.png)
+
+## Step 4
+
+Para que los datos filtrados se puedan obtener utilicé una URL dinámica, la cual cambia según la ID que escriba el usuario en un input. Con el fin de no realizar un fetch de datos cada vez que el usuario presiona una tecla, utilicé un mecanismo de debounce. Utilicé la librería use-debounce y junto al hook useEffect, pude crearlo exitosamente.
+
+![Untitled](img-readme/Untitled%203.png)
+
+## Step 5
+
+Para manejar las conexiones lentas, utilicé un atributo llamado isLoading que se obtiene al usar el hook useSWR. Este atributo es true cuando hay una petición de datos en proceso y los datos no se han cargado todavía. Con esto, logré que cuando es true se muestre un mensaje de que está cargando y una vez se hayan cargado los datos, desaparezca.
+
+## Adicional
+
+### AWS CloudFront y GitHub Actions.
+
+Como los clientes estarán en lugares donde no hay buena conexión, decidí utilizar un servicio de Amazon Web Services (AWS) el cual podría ayudar mucho. Este servicio se llama CloudFront y es un servicio web que acelera la distribución de contenido web. Cuenta con una red mundial de puntos de presencia. Cuando los usuarios solicitan contenido, la solicitud se redirige al punto con menor latencia.
+
+Para lograr esto utilicé un bucket S3 que alojara un sitio web estático. Utilicé el comando ‘npm run build’ y subí los archivos al bucket. Luego creé una distribución de CloudFront para que mi sitio web alojado, se deployee en CloudFront. 
+
+Creé un workflow, para que cada vez que se haga un pull request o un push a la main branch, se ejecute actualizando los cambios del repositorio, al S3.
+
+### SonarCloud y GitHub Actions.
+
+SonarCloud es una herramienta de la nube la cual ayuda a los desarrolladores a escribir código más limpio.
+
+Primero me creé una cuenta de SonarCloud e importé mi proyecto de GitHub. Este mecanismo fue igual al de Vercel. Después, configuré los tokens tanto de GitHub, como de SonarCloud para poder crear un workflow que haga un chequeo del código. Este se ejecuta cada vez que se hace un pull request.
+
+Ejemplos de uso:
+
+![Untitled](img-readme/Untitled%204.png)
+
+En esta imagen podemos ver un caso de uso de esta herramienta. Nos está indicando una recomendación para que nuestro código sea mejor.
+
+![Untitled](img-readme/Untitled%205.png)
+
+Además, nos indica dónde exactamente está el error.
+
+![Untitled](img-readme/Untitled%206.png)
+
+Y cómo podemos mejorarlo.
