@@ -1,5 +1,9 @@
 # Desafío Técnico.
 
+Deploy en Vercel: https://test-next-js-nine-phi.vercel.app/
+Deploy en CloudFront: http://nextjs-deploy-desafio.s3-website-us-east-1.amazonaws.com/
+(El link del Deploy de CloudFront aún no está debido a unos problemas con la verificación de mi cuenta de AWS. Apenas resuelva este problema, el link será actualizando. Por lo pronto, aparece el link del sitio web estático alojado en el bucket de S3)
+
 ## Step 1
 
 Para crear la aplicación usando NextJS ejecuté el siguiente comando: 
@@ -9,10 +13,6 @@ npx create-next-app@latest
 ```
 
 Para que la creación sea exitosa es necesario tener una versión de Node ≥ 18.7.
-
-Luego de unas preguntas de configuración la aplicación de NextJS fue creada.
-
-Cree un repositorio público de GitHub para poder inicializar el proyecto. Hice el primer commit y primer push y finalicé el primer paso.
 
 ## Step 2
 
