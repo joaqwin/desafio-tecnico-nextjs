@@ -16,7 +16,7 @@ export default function Page(){
     const [url, setUrl] = useState('https://jsonplaceholder.typicode.com/posts');
     const [debounced] = useDebounce(val, 500)
 
-    const { data, error } = useSWR('/posts', () => fetcher(url), {
+    const { data, error, isLoading } = useSWR('/posts', () => fetcher(url), {
         onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
             if (error.status === 404) return <div>Not found...</div>
             
@@ -48,8 +48,8 @@ export default function Page(){
     if(error) return <div>Failed to load</div>
 
     //If data is not available yet, it appears a loading page.
-    if(!data) return (
-        <div className="flex justify-center items-center h-screen">
+    if(isLoading) return (
+        <div className="flex justify-center items-center h-screen skeleton">
             <div className="rounded-full h-20 w-20 bg-violet-800 animate-ping"></div>
         </div>
     )
